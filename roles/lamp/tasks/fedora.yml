@@ -1,0 +1,38 @@
+---
+- block:
+    - name: install apache service
+      yum:
+        name: httpd
+        state: present
+    - name: start apache service
+      service:
+        name: httpd
+        state: started
+  when: ansible_facts['distribution'] == 'Fedora'
+  become_user: "{{user}}"
+
+- block:
+    - name: install mysql service 
+      yum:
+        name: mariadb-server
+        state: present
+    - name: start mysql service
+      service:
+        name: mariadb
+        state: started
+  when: ansible_facts['distribution'] == 'Fedora'
+  become_user: "{{user}}"
+
+- block:
+    - name: install php service 
+      yum:
+        name: php
+        state: present
+    - name: start php service
+      service:
+        name: php-fpm
+        state: started
+  when: ansible_facts['distribution'] == 'Fedora'
+  become_user: "{{user}}"
+
+    

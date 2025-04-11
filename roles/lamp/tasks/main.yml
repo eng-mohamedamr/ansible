@@ -1,0 +1,4 @@
+---
+# tasks file for lamp
+- include_tasks: fedora.yml
+- include_tasks: ubuntu.yml

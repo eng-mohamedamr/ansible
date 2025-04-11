@@ -1,0 +1,4 @@
+- name: install lamp server
+  hosts: localhost
+  roles:
+    - lamp
