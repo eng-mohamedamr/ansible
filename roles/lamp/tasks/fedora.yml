@@ -10,18 +10,24 @@
         state: started
   when: ansible_facts['distribution'] == 'Fedora'
   become_user: "{{user}}"
+  always: 
+    debug:
+      msg: "for now it's just for test"
 
 - block:
     - name: install mysql service 
       yum:
-        name: mariadb-server
+        name: mysql-server
         state: present
     - name: start mysql service
       service:
-        name: mariadb
+        name: mysqld
         state: started
   when: ansible_facts['distribution'] == 'Fedora'
   become_user: "{{user}}"
+  secure: 
+    debug:
+      msg: "there is a problem installing mysql and start it"
 
 - block:
     - name: install php service 
@@ -34,5 +40,6 @@
         state: started
   when: ansible_facts['distribution'] == 'Fedora'
   become_user: "{{user}}"
+  notify: restart apache server on fedora
 
     

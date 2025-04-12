@@ -1,2 +1,10 @@
 ---
 # handlers file for lamp
+- name: restart apache server
+  service:
+    name: apache2
+    state: restarted
+- name: restart apache server on fedora
+  service:
+    name: httpd
+    state: restarted

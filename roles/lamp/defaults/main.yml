@@ -1,5 +1,3 @@
 ---
 # defaults file for lamp
 user: mohamed
-fedora: ansible_facts['distribution'] == 'Fedora'
-ubuntu: ansible_facts['distribution'] == 'Ubuntu'
