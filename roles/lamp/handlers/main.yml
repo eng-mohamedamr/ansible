@@ -8,3 +8,10 @@
   service:
     name: httpd
     state: restarted
+- name: sample php file
+  copy:
+      dest: "{{php_file}}"
+      content: |
+            <?php
+            echo"hello world"
+            ?>

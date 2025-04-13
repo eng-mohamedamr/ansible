@@ -8,11 +8,12 @@
       service:
         name: apache2
         state: started
+  always:
+    - name: test the error handling
+      debug:
+       msg: "just for testing"
   when: ansible_facts['distribution'] == 'Ubuntu'
   become_user: "{{user}}"
-  always: 
-    debug:
-      msg: "for now it's just for test"
 
 - block:
     - name: install mysql service 
@@ -25,19 +26,33 @@
         state: started
   when: ansible_facts['distribution'] == 'Ubuntu'
   become_user: "{{user}}"
-  secure: 
-    debug:
-      msg: "there is a problem installing mysql and start it"
+  rescue:
+    - name: test the error handling
+      debug:
+       msg: "I've got an error"
 
 - block:
     - name: install php service 
       apt:
-        name: php
+        name:
+          - php
+          - php-mysql
         state: present
-    - name: start php service
-      service:
-        name: php8.1-fpm
-        state: started
   when: ansible_facts['distribution'] == 'Ubuntu'
   become_user: "{{user}}"
-  notify: restart apache server
+  notify:
+    -  restart apache server
+    -  sample php file
+- block:
+
+      - name: allow  ports on ufw
+        ufw:
+          rule: allow
+          port: "{{item}}"
+
+        loop:
+          - 80
+          - 443
+        ignore_errors: yes
+  when: ansible_facts['distribution'] == 'Ubuntu'
+  become_user: "{{user}}"
