@@ -53,6 +53,6 @@
         loop:
           - 80
           - 443
-        ignore_errors: yes
+        ignore_errors: true
   when: ansible_facts['distribution'] == 'Ubuntu'
   become_user: "{{user}}"

@@ -17,11 +17,11 @@
 - block:
     - name: install mysql service 
       yum:
-        name: mysql-server
+        name: mariadb-server
         state: present
     - name: start mysql service
       service:
-        name: mysqld
+        name: mariadb
         state: started
   when: ansible_facts['distribution'] == 'Fedora'
   become_user: "{{user}}"
@@ -42,12 +42,12 @@
 - block:
     - name: allow ports on firwall
       firewalld:
-        rule: allow
-        state: enabled
-        port: "{{item}}"
+         port: "{{ item }}/tcp"
+         permanent: true
+         state: enabled
       loop:
         - 80
         - 443
-      ignore_errors: yes
+      ignore_errors: true
   when: ansible_facts['distribution'] == 'Fedora'
   become_user: "{{user}}"
