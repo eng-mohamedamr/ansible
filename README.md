@@ -8,3 +8,5 @@ Note: if you're using Fedora, you also have to make sure that the yum package ma
    1) sudo yum install ansible (on Fedora)
    2) sudo apt install ansible (on Ubuntu)
 3- This is the command to run the playbook => sudo ansible-playbook lamp_playbook.yml
+4- the sql username: root & password: root
+Note: if you wanna open the DB use this commands mariadb -u root -p ( Fedora Users)    mysql -u root -p ( Ubuntu Users)    
