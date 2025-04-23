@@ -22,13 +22,30 @@
     - name: start mysql service
       service:
         name: mariadb
-        state: started
+        state: started 
+    - name: install python3-pip if not installed #it's mandatory to change the sql password
+      yum:
+        name: python3-pip
+        state: present
+    - name: making sure PyMySQL installed #it's also mandatory because it's a dependency of python3-pip
+      pip:
+        name: PyMySQL
+        state: present
   when: ansible_facts['distribution'] == 'Fedora'
   become_user: "{{user}}"
+  notify: set database password for the first time
   always:
     - name: test the error handling
       debug:
        msg: "just for testing"
+# - block:                # (use this block if you wanna change the password)
+#   - name: sign in to the my sql    
+#     mysql_user:
+#       login_user: root
+#       login_password: root
+#       login: new_user
+#       password: new_password
+#       state: present 
 - block:
     - name: install php service 
       yum:

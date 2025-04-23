@@ -24,13 +24,35 @@
       service:
         name: mysql
         state: started
+    - name: install python3-pip if not installed #it's mandatory to change the sql password
+      apt:
+        name: python3-pip
+        state: present
+    - name: making sure PyMySQL installed #it's also mandatory because it's a dependency of python3-pip
+      pip:
+        name: PyMySQL
+        state: present
+    - name: set database password
+      mysql_user:
+        name: root
+        password: "{{db_root_pass}}"
+        login_unix_socket: /var/lib/mysql/mysql.sock # we use this because the root doesn't use TCP, only socket file.
+        check_implicit_admin: true # we use this parameter if we dont know the sql password
+        state: present
   when: ansible_facts['distribution'] == 'Ubuntu'
   become_user: "{{user}}"
   rescue:
     - name: test the error handling
       debug:
        msg: "I've got an error"
-
+# - block:                # (use this block if you wanna change the password)
+#   - name: sign in to the my sql    
+#     mysql_user:
+#       login_user: root
+#       login_password: root
+#       login: new_user
+#       password: new_password
+#       state: present 
 - block:
     - name: install php service 
       apt:

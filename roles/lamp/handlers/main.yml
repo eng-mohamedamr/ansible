@@ -15,3 +15,10 @@
             <?php
             echo"hello world"
             ?>
+- name: set database password for the first time
+  mysql_user:
+    name: root
+    password: "{{db_root_pass}}"
+    login_unix_socket: /var/lib/mysql/mysql.sock # we use this because the root doesn't use TCP, only socket file.
+    check_implicit_admin: true # we use this parameter if we dont know the sql password
+    state: present
